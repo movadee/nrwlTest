@@ -25,7 +25,10 @@
               "apps/nrwl-test/src/favicon.ico",
               "apps/nrwl-test/src/assets"
             ],
-            "styles": ["apps/nrwl-test/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "apps/nrwl-test/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -79,7 +82,10 @@
               "apps/nrwl-test/tsconfig.app.json",
               "apps/nrwl-test/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/nrwl-test/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/nrwl-test/**"
+            ]
           }
         },
         "test": {
@@ -113,8 +119,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/nrwl-test-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/nrwl-test-e2e/**"]
+            "tsConfig": [
+              "apps/nrwl-test-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/nrwl-test-e2e/**"
+            ]
           }
         }
       }
