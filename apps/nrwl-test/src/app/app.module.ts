@@ -13,6 +13,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import * as fromTickets from './+state/tickets.reducer';
+import { TicketsEffects } from './+state/tickets.effects';
+import { TicketsFacade } from './+state/tickets.facade';
+import { NxModule } from '@nrwl/angular';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, ListComponent, DetailsComponent],
@@ -20,6 +30,8 @@ import { MatInputModule } from '@angular/material/input';
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       {
         path: '',
@@ -37,9 +49,24 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatButtonModule,
     MatGridListModule,
-    MatInputModule
+    MatInputModule,
+    NxModule.forRoot(),
+    StoreModule.forRoot(
+      {},
+      {
+        metaReducers: !environment.production ? [] : [],
+        runtimeChecks: {
+          strictActionImmutability: true,
+          strictStateImmutability: true
+        }
+      }
+    ),
+    EffectsModule.forRoot([TicketsEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot(),
+    StoreModule.forFeature(fromTickets.TICKETS_FEATURE_KEY, fromTickets.reducer)
   ],
-  providers: [BackendService],
+  providers: [BackendService, TicketsFacade],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

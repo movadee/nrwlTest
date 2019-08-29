@@ -4,11 +4,22 @@
       <input matInput placeholder="Filter Tickets" />
     </mat-form-field>
   </form>
-  <button mat-raised-button color="primary">ADD TICKET</button>
 </div>
 
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input
+      matInput
+      type="number"
+      formControlName="id"
+      placeholder="Ticket Id"
+    />
+  </mat-form-field>
+  <button mat-raised-button color="primary">Add Ticket</button>
+</form>
+
 <mat-grid-list cols="3" rowHeight="3:2">
-  <mat-grid-tile *ngFor="let ticket of (tickets | async)">
+  <mat-grid-tile *ngFor="let ticket of (tickets$ | async)">
     <mat-card class="example-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>

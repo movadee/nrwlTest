@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService, Ticket } from '../backend.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { TicketsFacade } from '../+state/tickets.facade';
 
 @Component({
   selector: 'nrwl-test-list',
@@ -7,9 +10,26 @@ import { BackendService, Ticket } from '../backend.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  tickets = this.backend.tickets();
+  form: FormGroup;
+  tickets$: Observable<any>;
 
-  constructor(private backend: BackendService) {}
+  constructor(private ticketsFacade: TicketsFacade) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.tickets$ = this.ticketsFacade.allTickets$;
+    this.form = new FormGroup({
+      id: new FormControl(''),
+      description: new FormControl(''),
+      assigneeId: new FormControl(''),
+      completed: new FormControl('')
+    });
+  }
+
+  onSubmit() {
+    const { ticket } = this.form.value;
+    if (ticket) {
+      this.ticketsFacade.addTicket(ticket);
+      this.form.reset();
+    }
+  }
 }
